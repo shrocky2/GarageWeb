@@ -1,0 +1,22 @@
+<html><head>
+<meta name="viewport" content="width=device-width">
+<link rel="stylesheet" type="text/css" href="stylesheet.css">
+
+</head>
+<body bgcolor="green">
+<center>
+<br>
+<form action="/Garage" method="post" id="garageform">
+<input id="garagecode" name="garagecode" type="text "pattern="[0-9]*" value="" STYLE="background-color:white;">
+</form>
+<img src="/images/GarageGreen.gif" width="90%" onclick="document.forms['garageform'].submit();">
+
+
+<a class="weatherwidget-io" href="https://forecast7.com/en/44d08n92d51/55901/?unit=us" data-label_1="ROCHESTER" data-label_2="WEATHER" data-days="3" data-theme="original" >ROCHESTER WEATHER</a>
+<script>
+!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src='https://weatherwidget.io/js/widget.min.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','weatherwidget-io-js');
+</script>
+
+<br><br><a href="/Log">Click for Log File</a><br><br>
+</center>
+</body></html>
