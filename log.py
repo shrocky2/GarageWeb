@@ -5,8 +5,9 @@ from datetime import datetime
 
 
 logfile = open("/home/pi/GarageWeb/static/log.txt","a")
-logfile.write(datetime.now().strftime("     Program Starting -- %Y/%m/%d -- %H:%M  -- Hello Steve! \n"))
+logfile.write(datetime.now().strftime("     Program Starting -- %Y/%m/%d -- %H:%M  -- Hello! \n"))
 logfile.close()
+print(datetime.now().strftime("     Program Starting -- %Y/%m/%d -- %H:%M  -- Hello! \n"))
 
 print " Control + C to exit Program"
 
@@ -34,6 +35,7 @@ try:
            logfile = open("/home/pi/GarageWeb/static/log.txt","a")
            logfile.write(datetime.now().strftime("%Y/%m/%d -- %H:%M:%S  -- Door Opening/Closing \n"))
            logfile.close()
+	   print(datetime.now().strftime("%Y/%m/%d -- %H:%M:%S  -- Door Closed \n"))
            while GPIO.input(16) == GPIO.HIGH and GPIO.input(18) == GPIO.HIGH:
              time.sleep(.5)
            else:
@@ -59,4 +61,5 @@ except KeyboardInterrupt:
         logfile = open("/home/pi/GarageWeb/static/log.txt","a")
         logfile.write(datetime.now().strftime("     Log Program Shutdown -- %Y/%m/%d -- %H:%M  -- Goodbye Steve! \n"))
         logfile.close()
+	print(datetime.now().strftime("     Log Program Shutdown -- %Y/%m/%d -- %H:%M  -- Goodbye Steve! \n"))
         GPIO.cleanup()
