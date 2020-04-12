@@ -59,7 +59,7 @@ try:
 
 except KeyboardInterrupt:
         logfile = open("/home/pi/GarageWeb/static/log.txt","a")
-        logfile.write(datetime.now().strftime("     Log Program Shutdown -- %Y/%m/%d -- %H:%M  -- Goodbye Steve! \n"))
+        logfile.write(datetime.now().strftime("     Log Program Shutdown -- %Y/%m/%d -- %H:%M  -- Goodbye! \n"))
         logfile.close()
-	print(datetime.now().strftime("     Log Program Shutdown -- %Y/%m/%d -- %H:%M  -- Goodbye Steve! \n"))
+	print(datetime.now().strftime("     Log Program Shutdown -- %Y/%m/%d -- %H:%M  -- Goodbye! \n"))
         GPIO.cleanup()
