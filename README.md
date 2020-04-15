@@ -7,11 +7,17 @@ Products I used in this video:
 --------------------------------------------------------------------
 
 Raspberry Pi Zero W with case on Amazon: https://amzn.to/34ujK5C
+
 Raspberry Pi Zero W on Adafruit: https://www.adafruit.com/product/3400
+
 4 Channel Relay (to Open Garage Door): https://amzn.to/3b4lHbD
+
 Magnetic Reed Switch (You need 2): https://amzn.to/39YG7kU
+
 Jumper/Breadboard wire 120ct: https://amzn.to/2V3fFlV
+
 Hammer Header & Install Kit on Amazon: https://amzn.to/3b5RbxX
+
 Hammer Headers on Adafruit: https://www.adafruit.com/product/3662
 
 --------------------------------------------------------------------
@@ -65,5 +71,7 @@ sudo reboot
 Additional Videos:
 --------------------------------------------------------------------
 Sonoff Garage Door Opener: https://youtu.be/f1JeKHraDf8
+
 How to set up your Raspberry Pi: https://youtu.be/EeEU_8HG9l0
+
 How to set up Port Forwarding on your Router: https://youtu.be/VhVV25zCFrQ
