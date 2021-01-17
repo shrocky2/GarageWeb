@@ -66,6 +66,11 @@ sudo reboot
 11.  --Set up Port Forwarding on your Router to allow access when away from home.
      --Once setup, turn off WiFi on your phone and test. You'll need to know the REAL address of your home router.
 
+--------------------------------------------------------------------
+Wiring Diagram:
+--------------------------------------------------------------------
+
+https://github.com/shrocky2/GarageWeb/blob/master/Wiring%20Diagram.jpg
 
 --------------------------------------------------------------------
 Additional Videos:
