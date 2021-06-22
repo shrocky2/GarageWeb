@@ -70,7 +70,7 @@ sudo reboot
 Wiring Diagram:
 --------------------------------------------------------------------
 
-<img src="https://github.com/shrocky2/GarageWeb/blob/master/Wiring%20Diagram.jpg">
+<img src="https://github.com/shrocky2/GarageWeb/blob/master/Wiring_Diagram.jpg">
 
 --------------------------------------------------------------------
 Additional Videos:
