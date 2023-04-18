@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+</head>
+<body>
+    <!-- <div class="container">
+        <div class="row">
+            <div class="col-lg-8  offset-lg-2">
+                <h3 class="mt-5">Garage Stream (delayed 10seconds)</h3>
+                <img src="{{ url_for('camera') }}" width="100%">
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="column">
+            <div class="col-sm">
+                <a href="{{ url_for('logout')}}">Logout</a>
+            </div>
+            <div class="col-sm">
+                {% if status=="Open" %}
+                <img src="static/images/GarageRed.gif" width="50%">
+                {% else %}
+                <img src="static/images/GarageQuestion.gif" width="50%">
+                {% endif %}
+            </div>
+            <div class="col-sm">
+                <a href="/Log">Click for Log File</a><br><br>
+            </div>
+        </div>
+    </div> -->
+    <div class="container">
+        <div class="row">
+          <div class="col">
+            <h3 class="mt-5">Garage Stream (delayed 10seconds)</h3>
+            <img src="{{ url_for('camera') }}" width="40%">
+          </div>
+          <div class="col">
+            {% if status=="Open" %}
+            <img src="static/images/GarageRed.gif" width="40%">
+            {% else %}
+            <img src="static/images/GarageQuestion.gif" width="40%">
+            {% endif %}
+          </div>    
+          <div class="col">
+            <a href="/triggerremotegarage"><input type="button" value="Trigger Garage"></a>
+        </div>
+        </div>
+        <br>
+            <div class="row">
+            <div class="col">
+                <a href="/log">Click for Log File</a><br><br>
+            </div>
+            <div class="col">
+                <a href="{{ url_for('logout')}}">Logout</a>
+            </div>
+        </div>
+      </div>
+
+</body>
+</html>
