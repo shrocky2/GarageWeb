@@ -1,86 +1,87 @@
-import time
-from datetime import datetime
-from flask import Flask, render_template, request
+from flask import Flask, render_template, url_for, redirect, Response, request, session
+from flask_wtf import FlaskForm
+from wtforms import PasswordField, SubmitField
+from wtforms.validators import InputRequired, ValidationError
+from flask_login import login_user, LoginManager, login_required, logout_user, current_user
 
-import RPi.GPIO as GPIO
-GPIO.setmode(GPIO.BOARD)  # the pin numbers refer to the board connector not the chip
-GPIO.setwarnings(False)
-GPIO.setup(16, GPIO.IN, GPIO.PUD_UP) # set up pin ?? (one of the above listed pins) as an input with a pull-up resistor
-GPIO.setup(18, GPIO.IN, GPIO.PUD_UP) # set up pin ?? (one of the above listed pins) as an input with a pull-up resistor
-GPIO.setup(7, GPIO.OUT)
-GPIO.output(7, GPIO.HIGH)
-GPIO.setup(11, GPIO.OUT)
-GPIO.output(11, GPIO.HIGH)
-GPIO.setup(13, GPIO.OUT)
-GPIO.output(13, GPIO.HIGH)
-GPIO.setup(15, GPIO.OUT)
-GPIO.output(15, GPIO.HIGH)
-
-
-
+from data import USERS
+from garageFunctions import checkGaragePassword, checkGarageStatus, triggerGarage, garageCamera
 
 app = Flask(__name__)
+app.config['SECRET_KEY'] = 'SUPERSAFESECRETKEY-- Change me'
 
-@app.route('/', methods=['GET', 'POST'])
-def index():
-        if GPIO.input(16) == GPIO.HIGH and GPIO.input(18) == GPIO.HIGH:
-             print("Garage is Opening/Closing")
-             return app.send_static_file('Question.html')
-        else:  
-             if GPIO.input(16) == GPIO.LOW:
-                   print ("Garage is Closed")
-                   return app.send_static_file('Closed.html')
-             if GPIO.input(18) == GPIO.LOW:
-                   print ("Garage is Open")
-                   return app.send_static_file('Open.html')
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view="login"
 
 
-@app.route('/Garage', methods=['GET', 'POST'])
-def Garage():
-        name = request.form['garagecode']
-        if name == '12345678':  # 12345678 is the Password that Opens Garage Door (Code if Password is Correct)
-                GPIO.output(7, GPIO.LOW)
-                time.sleep(1)
-                GPIO.output(7, GPIO.HIGH)
-                time.sleep(2)
+class LoginForm(FlaskForm):
+    password = PasswordField(validators=[InputRequired()],
+                              render_kw={"placeholder" : "password"})
+    submit = SubmitField("Login")
 
-                if GPIO.input(16) == GPIO.HIGH and GPIO.input(18) == GPIO.HIGH:
-                  print("Garage is Opening/Closing")
-                  return app.send_static_file('Question.html')
-                else:
-                  if GPIO.input(16) == GPIO.LOW:
-                        print ("Garage is Closed")
-                        return app.send_static_file('Closed.html')
-                  if GPIO.input(18) == GPIO.LOW:
-                        print ("Garage is Open")
-                        return app.send_static_file('Open.html')
+class TriggerForm(FlaskForm):
+    trigger = SubmitField("Trigger Garage")
+    
+USER_ID = "1221"
 
-        if name != '12345678':  # 12345678 is the Password that Opens Garage Door (Code if Password is Incorrect)
-                if name == "":
-                        name = "NULL"
-                print("Garage Code Entered: " + name)
-                if GPIO.input(16) == GPIO.HIGH and GPIO.input(18) == GPIO.HIGH:
-                  print("Garage is Opening/Closing")
-                  return app.send_static_file('Question.html')
-                else:
-                  if GPIO.input(16) == GPIO.LOW:
-                        print ("Garage is Closed")
-                        return app.send_static_file('Closed.html')
-                  if GPIO.input(18) == GPIO.LOW:
-                        print ("Garage is Open")
-                        return app.send_static_file('Open.html')
+@login_manager.user_loader
+def load_user(user_id=USER_ID):
+    return USERS.get(str(user_id))
 
-@app.route('/stylesheet.css')
-def stylesheet():
-        return app.send_static_file('stylesheet.css')
+@app.route('/')
+def home():
+    return redirect(url_for('login'))
 
-@app.route('/Log')
+@app.route('/login', methods=['GET','POST'])
+def login():
+    form = LoginForm()
+    error = None
+    if form.validate_on_submit():
+        if checkGaragePassword(form.password.data):
+            login_user(USERS.get(str(USER_ID)))
+            return redirect(url_for('dashboard'))
+        else:
+            error = 'Invalid Credentials'
+        
+    return render_template('login.html', form=form, error=error)
+
+@app.route('/dashboard', methods=['GET','POST'])
+@login_required
+def dashboard():
+    
+    if request.method == 'POST':
+        if request.form['trigger'] == 'Trigger Garage':
+            triggerGarage()
+            print("garage triggered") 
+    status = checkGarageStatus()
+    return render_template('dashboard.html', status=status)
+
+
+@app.route('/garagecamera', methods=['GET','POST'])
+@login_required
+def garagecamera():
+    return render_template('garageCamera.html')
+
+@app.route('/camera', methods=['GET','POST'])
+@login_required
+def camera():
+    return Response(garageCamera(), mimetype='multipart/x-mixed-replace; boundary=frame')
+
+@app.route('/triggerremotegarage', methods=['GET','POST'])
+@login_required
+def triggerremotegarage():
+    triggerGarage()
+    return redirect(url_for('dashboard'))
+
+@app.route('/log')
 def logfile():
-        return app.send_static_file('log.txt')
+    return app.send_static_file('log.txt')
 
-@app.route('/images/<picture>')
-def images(picture):
-        return app.send_static_file('images/' + picture)
-
+@app.route('/logout', methods=['GET','POST'])
+def logout():
+    logout_user()
+    return redirect(url_for('login'))
+ 
 if __name__ == '__main__':
-        app.run(debug=True, host='0.0.0.0', port=5000)
+    app.run(host='0.0.0.0', port=5000)
