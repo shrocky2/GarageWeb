@@ -1,3 +1,12 @@
+
+I have used code from this fork but added code on top of it with authentication and a garage stream
+
+- Added only one sensor for open not close(This was a personal thing, I didnt have long enough wire to add another sensor).
+- Adding a camera using IPWebCam and an old phone
+- Changed UI to reflect some new changes including a garage live stream and a trigger button
+- Added flask login
+
+_________________________________________________________________________
 YouTube Video Instructions found here: https://youtu.be/Fcx6wANw9KM
 
 Setting up a Flask web server to control your garage door & display the door status & log usage.
